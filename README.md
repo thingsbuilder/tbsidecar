@@ -15,11 +15,12 @@ Execute:
 
 Para o deployment_dotnet:
 
-make build_dotnet   (para fazer o build)
-make deploy_dotnet  (para fazer o deployment) 
+`make build_dotnet`   _(para fazer o build)_
+`make deploy_dotnet`  _(para fazer o deployment)_ 
 
 Para o deployment_python:
 
-make build_python   (para fazer o build)
-make deploy_python  (para fazer o deployment)
+`make build_python`   _(para fazer o build)_
+`make deploy_python`  _(para fazer o deployment)_
+ 
  
