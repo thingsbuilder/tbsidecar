@@ -12,6 +12,7 @@ namespace main_dotnet
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine(".net project started");
             CreateHostBuilder(args).Build().Run();
         }
 

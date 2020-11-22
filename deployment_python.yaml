@@ -1,32 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sidecar
+  name: sidecar-python
 spec:
   selector:
     matchLabels:
-      app: sidecar
+      app: sidecar-python
   replicas: 1
   template:
     metadata:
       labels:
-        app: sidecar
+        app: sidecar-python
     spec:
       containers:
-      - name: sidecar
-        image: sidecar:latest
-        imagePullPolicy: Never
+      - name: sidecar-python
+        image: sidecar_python:latest
+        imagePullPolicy: IfNotPresent
         envFrom:
           - secretRef:
               name: sidecar-secrets
-        ports:
-          - containerPort: 50051
 
       - name: main-application
         image: main_application:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         envFrom:
           - secretRef:
                name: sidecar-secrets
-        ports:
-          - containerPort: 50051

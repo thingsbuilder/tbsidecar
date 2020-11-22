@@ -3,7 +3,7 @@ include dev.env
 export $(shell sed 's/=.*//' dev.env)
 export WORKER_NAME=worker
 export PYTHON=/usr/bin/python3
-export IMAGE_NAME=sidecar
+export IMAGE_NAME=sidecar_python
 export VERSION=latest
 export CONTAINER=$(IMAGE_NAME)_container
 

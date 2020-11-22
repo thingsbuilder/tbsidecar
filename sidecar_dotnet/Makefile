@@ -1,22 +1,21 @@
 #!make
 include dev.env
 export $(shell sed 's/=.*//' dev.env)
-export WORKER_NAME=worker
-export PYTHON=/usr/bin/python3
-export IMAGE_NAME=main_application
+export IMAGE_NAME=sidecar_dotnet
 export VERSION=latest
 export CONTAINER=$(IMAGE_NAME)_container
 
 default: run
 
-from_proto:
-	cd app && $(PYTHON) -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/greet.proto
-
 build:
+	dotnet built
 	$(PYTHON) -m pip install -r ./requirements.txt
 
 run:
-	$(PYTHON)  ./run.py
+	dotnet run
+
+publish:
+	dotnet publish -c Release
 
 buildc:
 	docker build --tag $(IMAGE_NAME):${VERSION} . -f Dockerfile
@@ -33,13 +32,3 @@ runc:
 
 br: stopc buildc runc
 
-upload-pip:
-	# https://dzone.com/articles/executable-package-pip-install
-	python setup.py bdist_wheel
-	python -m twine upload dist/*
-
-pip-upload:
-	cd dist && twistd -n web  --path .
-
-install-local:
-	pip install -e .

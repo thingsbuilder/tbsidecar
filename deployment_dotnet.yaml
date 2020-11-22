@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidecar-dotnet
+spec:
+  selector:
+    matchLabels:
+      app: sidecar-dotnet
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sidecar-dotnet
+    spec:
+      containers:
+      - name: sidecar-dotnet
+        image: sidecar_dotnet:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - secretRef:
+              name: sidecar-secrets
+
+      - name: main-application
+        image: main_application:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - secretRef:
+               name: sidecar-secrets
