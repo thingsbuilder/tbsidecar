@@ -13,13 +13,14 @@ build:
 	$(PYTHON) -m pip install -r ./requirements.txt
 
 run:
-	$(PYTHON)  ./app/run.py
+	$(PYTHON)  ./run.py
 
 buildc:
 	docker build --tag $(IMAGE_NAME):${VERSION} . -f Dockerfile
 
 stopc:
-	docker rm --force $(CONTAINER)
+	-docker rm --force $(CONTAINER)
+	-docker rmi --force $(IMAGE_NAME)
 
 runbash:
 	docker exec -it ${CONTAINER} /bin/bash

@@ -1,17 +1,3 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: sidecar
-spec:
-  selector:
-    app: sidecar
-  ports:
-  - protocol: "TCP"
-    port: 50051
-    targetPort: 50051
-  type: LoadBalancer
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,5 +16,17 @@ spec:
       - name: sidecar
         image: sidecar:latest
         imagePullPolicy: Never
+        envFrom:
+          - secretRef:
+              name: sidecar-secrets
         ports:
-        - containerPort: 50051
+          - containerPort: 50051
+
+      - name: main-application
+        image: main_application:latest
+        imagePullPolicy: Never
+        envFrom:
+          - secretRef:
+               name: sidecar-secrets
+        ports:
+          - containerPort: 50051

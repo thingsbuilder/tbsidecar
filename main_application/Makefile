@@ -3,7 +3,7 @@ include dev.env
 export $(shell sed 's/=.*//' dev.env)
 export WORKER_NAME=worker
 export PYTHON=/usr/bin/python3
-export IMAGE_NAME=sidecar
+export IMAGE_NAME=main_application
 export VERSION=latest
 export CONTAINER=$(IMAGE_NAME)_container
 
@@ -13,13 +13,14 @@ build:
 	$(PYTHON) -m pip install -r ./requirements.txt
 
 run:
-	$(PYTHON)  ./app/run.py
+	$(PYTHON)  ./run.py
 
 buildc:
 	docker build --tag $(IMAGE_NAME):${VERSION} . -f Dockerfile
 
 stopc:
-	docker rm --force $(CONTAINER)
+	-docker rm --force $(CONTAINER)
+	-docker rmi --force $(IMAGE_NAME)
 
 runbash:
 	docker exec -it ${CONTAINER} /bin/bash
